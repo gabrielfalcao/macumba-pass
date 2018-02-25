@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 from macumba_pass.web.framework.serializers import json
-from .scenarios import with_chalice_client
+from .scenarios import with_localstack
 
 
-@with_chalice_client
+@with_localstack('s3')
 def test_create_password(context):
-    ("POST /v1/password should create an s3 bucket if not exists")
+    ("POST /api/v1/password should create an s3 bucket if not exists")
 
     pwdata = {
         'label': 'personal gmail acccount',

@@ -16,8 +16,8 @@ def get_localstack_endpoint_url_for_service(service_name):
 
 
 def get_boto_session():
-    # PROFILE_NAME = os.getenv('profile_name', 'personal')
-    session = boto3.Session()
+    PROFILE_NAME = os.getenv('profile_name', 'personal')
+    session = boto3.Session(profile_name=PROFILE_NAME)
     return session
 
 

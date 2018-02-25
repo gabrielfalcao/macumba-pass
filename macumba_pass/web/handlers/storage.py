@@ -6,7 +6,7 @@ from macumba_pass.web.helpers import PasswordKeyStore
 
 
 @app.route('/api/v1/password', methods=['POST'])
-def set_password_v1():
+def set_password():
     store = PasswordKeyStore()
     bucket = store.get_or_create_bucket('macumba-secrets')
     response = {
@@ -16,7 +16,7 @@ def set_password_v1():
 
 
 @app.route('/api/v1/password/{label}', methods=['GET'])
-def retrieve_password_v1(label):
+def retrieve_password(label):
     store = PasswordKeyStore()
     bucket = store.get_or_create_bucket('macumba-secrets')
     response = {

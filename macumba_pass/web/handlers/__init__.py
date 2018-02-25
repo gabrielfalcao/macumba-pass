@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 from .base import app
-from .index import *  # noqa
 from .storage import *  # noqa
 
 
-__all__ = ('app', )
+@app.route('/')
+def index():
+    params = app.current_request.query_params
+    msg = params.get('message', 'Hello World')
+    return {'message': msg}

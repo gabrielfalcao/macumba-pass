@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from decimal import Decimal
-from macumba_pass.web.framework import json_serialize
-from macumba_pass.web.framework import json_deserialize
+from macumba_pass.web.framework.serializers import json_serialize
+from macumba_pass.web.framework.serializers import json_deserialize
 
 
 def test_json_serialize():

@@ -1,4 +1,4 @@
-test_layers:=unit functional smoke
+test_layers:=unit smoke
 export LOCALSTACK_ENABLED:=true
 export AWS_PROFILE=localstack
 
@@ -41,3 +41,11 @@ clean:
 
 localstack:
 	localstack start
+
+stop-localstack:
+	@./wait-for-it.sh localhost:4572 -q -t 1 -- ps aux | grep -E 'localstack *start' | grep -v grep | awk '{print $$2}' | xargs kill
+
+functional:
+	@nohup localstack start >>localstack.log 2>&1 &
+	@./wait-for-it.sh localhost:4572 -q -t 3 -- nosetests tests/functional
+	@make stop-localstack

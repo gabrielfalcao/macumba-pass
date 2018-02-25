@@ -10,11 +10,13 @@ def create_test_client(context):
 
 
 def with_localstack(*apis, **kw):
+    auto_start = kw.get('auto_start', False)
     auto_stop = kw.get('auto_stop', False)
 
     def start_localstack(context):
         context.infra = infra
-        infra.start_infra(async=True, apis=apis)
+        if auto_start:
+            infra.start_infra(async=True, apis=apis)
 
     def stop_localstack(context):
         if auto_stop:

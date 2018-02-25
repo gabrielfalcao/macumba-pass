@@ -5,6 +5,10 @@ tests: unit functional
 html-docs:
 	cd docs && make html
 
+run:
+	pip install -t . -r requirements.txt
+	sam local start-api
+
 docs: html-docs
 	open docs/build/html/index.html
 

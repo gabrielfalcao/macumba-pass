@@ -6,7 +6,7 @@ An experimental lambda-based password manager API made with `chalice <chalice.re
 Goals:
 
 - Ability to develop the whole AWS application entirely in the local environment, no need for real AWS until is time to deploy.
-- Leverage a development workflow similar to test-driven `Flask <>`_ applications
+- Leverage a development workflow similar to test-driven `Flask <http://flask.pocoo.org>`_ applications
 
 
 Running Locally

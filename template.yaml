@@ -1,12 +1,33 @@
 Resources:
-  MacumbaPass:
+  MacumbaAPIIndex:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: macumba_pass.web.api_handlers.app
+      CodeUri: ./build/
+      Handler: macumba_pass.web.application
       Runtime: python3.6
       Events:
         Api:
           Type: Api
           Properties:
             Path: /
+            Method: get
+
+
+  MacumbaAPICreatePassword:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./build/
+      Handler: macumba_pass.web.application
+      Runtime: python3.6
+      Events:
+        CreatePassword:
+          Type: Api
+          Properties:
+            Path: /api/v1/password
+            Method: post
+
+        RetrievePassword:
+          Type: Api
+          Properties:
+            Path: /api/v1/password
             Method: get

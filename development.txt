@@ -1,12 +1,12 @@
 -r requirements.txt
-coverage
-ipdb
-mock
-nose
-pinocchio
-rednose
-sphinx
-sphinx-rtd-theme
-sure
-twine
-placebo
+ipdb==0.11
+mock==2.0.0
+nose==1.3.7
+pinocchio==0.4.2
+placebo==0.8.1
+rednose==1.3.0
+sphinx-rtd-theme==0.2.4
+sphinx==1.7.1
+sphinxcontrib-websupport==1.0.1
+sure==1.4.7
+twine==1.9.1

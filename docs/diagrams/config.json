@@ -1,0 +1,17 @@
+{
+  "startOnLoad": true,
+  "flowchart": {
+    "useMaxWidth": false,
+    "htmlLabels": true
+  },
+  "sequenceDiagram": {
+    "diagramMarginX": 80,
+    "diagramMarginY": 80,
+    "actorMargin": 80,
+    "mirrorActors": true,
+    "messageMargin": 80,
+    "boxTextMargin": 80,
+    "useMaxWidth": false
+  },
+  "theme": "forest"
+}

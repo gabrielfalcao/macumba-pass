@@ -1,0 +1,11 @@
+sequenceDiagram
+    participant DEV as Local Environment
+    participant UNIT as Unit Tests
+    participant WEB as Chalise Application
+    participant TASK as CloudWatch Task
+    Note over DEV,UNIT: Refactor code and cleanup through Unit Tests
+    DEV->>UNIT: Ensure 100% test coverage of functions and methods
+    UNIT-->WEB: Endpoints and its sub-routines
+    DEV->>WEB: Break functions into smaller ones, write one unit test per code execution branch
+    UNIT-->TASK: Task handlers and its sub-routines
+    DEV->>TASK: Break functions into smaller ones, write one unit test per code execution branch

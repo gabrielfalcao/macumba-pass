@@ -1,18 +1,27 @@
-test_layers:=unit functional
+test_layers:=unit functional smoke
+export LOCALSTACK_ENABLED:=true
+export AWS_PROFILE=localstack
+
+all: dev-local install tests
 
 tests: unit functional
 
 html-docs:
 	cd docs && make html
 
-run:
-	pip install -t . -r requirements.txt
+install:
+	pip install -U -t ./build/ .
+
+dev-local:
+	pip install -r development.txt
+
+run: install
 	sam local start-api
 
-docs: html-docs
+docs: dev-local html-docs
 	open docs/build/html/index.html
 
-release:
+release: install
 	@rm -rf dist/*
 	@./.release
 	@make pypi
@@ -30,6 +39,5 @@ $(test_layers):
 clean:
 	@find . -name '*.pyc' -delete
 
-
-smoke:
-	curl -H GET http://localhost:3000/
+localstack:
+	localstack start

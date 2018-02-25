@@ -1,0 +1,36 @@
+sequenceDiagram
+    participant DEV as Local Environment
+    participant UNIT as Unit Tests
+    participant FUNC as Functional Tests
+    participant INT as Integration Tests
+    participant WEB as Chalise Application
+    participant TASK as CloudWatch Task
+    participant BROKER as SQS Broker
+    Note over DEV,WEB: Implement ACME Provider *Web API* with through Functional Tests
+    DEV->>+FUNC: Write expectations of what HTTP endpoints should respond
+    FUNC-->>-WEB: HTTP request
+    WEB-->+DEV: Check HTTP Responses
+    DEV->WEB: make tests pass
+
+    Note over DEV,TASK: Implement ACME Provider *Background Tasks* through Functional Tests
+    DEV->>+FUNC: Write expectations of how CloudWatch Tasks should behave
+    FUNC-->>-TASK: Call task handler directly
+    TASK->>+WEB: HTTP request to /adapter/webhook/confirm_{booking,cancellation}
+    Note right of WEB: Notice that Chalise serves as fake adapter *only for automated testing purposes*
+    WEB-->+DEV: Check Adapter was called
+    DEV->TASK: make tests pass
+
+    Note over DEV,BROKER: Ensure the API and Tasks work together through Integration Tests
+    DEV->>+INT: Write expectations of how CloudWatch Tasks should behave
+    INT->>-WEB: HTTP Request
+    WEB->>BROKER: schedules task
+    BROKER-->>TASK: triggers event
+    DEV->WEB: Check Adapter was called
+    DEV->TASK: make tests pass
+
+    Note over DEV,UNIT: Refactor code and cleanup through Unit Tests
+    DEV->>UNIT: Ensure 100% test coverage of functions and methods
+    UNIT-->WEB: Endpoints and its sub-routines
+    DEV->>WEB: Break functions into smaller ones, write one unit test per code execution branch
+    UNIT-->BROKER: Task handlers and its sub-routines
+    DEV->>BROKER: Break functions into smaller ones, write one unit test per code execution branch

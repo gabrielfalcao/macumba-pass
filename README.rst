@@ -1,50 +1,38 @@
 MacumbaPass
-=======
+===========
 
-Lambda-based password management backend
+An experimental lambda-based password manager API made with `chalice <chalice.readthedocs.io>`_, `localstack <https://localstack.cloud>`_ and `SAM Local <https://github.com/awslabs/aws-sam-local>`_.
 
-.. image:: https://readthedocs.org/projects/macumba_pass/badge/?version=latest
-   :target: http://macumba_pass.readthedocs.io/en/latest/?badge=latest
-   :alt: Documentation Status
-.. image:: https://travis-ci.org/gabrielfalcao/macumba_pass.svg?branch=master
-    :target: https://travis-ci.org/gabrielfalcao/macumba_pass
-.. |PyPI python versions| image:: https://img.shields.io/pypi/pyversions/macumba_pass.svg
-   :target: https://pypi.python.org/pypi/macumba_pass
-.. |Join the chat at https://gitter.im/gabrielfalcao/macumba_pass| image:: https://badges.gitter.im/gabrielfalcao/macumba_pass.svg
-   :target: https://gitter.im/gabrielfalcao/macumba_pass?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
+Goals:
+
+- Ability to develop the whole AWS application entirely in the local environment, no need for real AWS until is time to deploy.
+- Leverage a development workflow similar to test-driven `Flask <>`_ applications
 
 
+Development Workflow
+--------------------
 
-Install
--------
+.. image:: docs/diagrams/diagram-development-workflow.png
+   :scale: 50 %
+   :alt: Development Workflow
+   :align: center
+   :target: docs/diagrams/diagram-development-workflow.png
 
-.. code:: bash
+Test-Driven Development
+-----------------------
 
-   pip install macumba_pass
-
-
-Documentation
--------------
-
-`macumba_pass.readthedocs.io <https://macumba_pass.readthedocs.io/en/latest/>`_
-
-
-Basic Usage
------------
+.. image:: docs/diagrams/diagram-unit-refactor-cleanup.png
+   :scale: 50 %
+   :alt: Test-Driven Development Flow
+   :align: center
+   :target: docs/diagrams/diagram-unit-refactor-cleanup.png
 
 
-.. code:: python
+Local Debugging
+---------------
 
-    from macumba_pass import readme
-
-    # demo your module
-
-    readme.then.replace.this.usage.with_a_real_example_of(
-        app_name="macumba_pass",
-        full_name="Gabriel Falcao",
-        email="gabriel@nacaolivre.org",
-        project_short_description="Lambda-based password management backend",
-        github_username="gabrielfalcao",
-        project_name="MacumbaPass",
-        version="0.0.1",
-    )
+.. image:: docs/diagrams/diagram-local-debugging.png
+   :scale: 50 %
+   :alt: Local Debugging
+   :align: center
+   :target: docs/diagrams/diagram-local-debugging.png

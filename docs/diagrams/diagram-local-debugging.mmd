@@ -10,7 +10,8 @@ sequenceDiagram
     Note over DEV,WEB: $ make run
 
     DEV->TERM: on another TTY
-    TERM->>TERM: make smoke
+    TERM->>WEB: run smoke tests
+    Note over DEV,WEB: $ make smoke
     TERM-->>WEB: HTTP Request
     Note over DEV,TASK: curl -H POST http://localhost:3000/shipment/book -d < ./tests/smoke/booking-payload.json
     DEV->TASK: Debug away!

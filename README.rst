@@ -9,30 +9,38 @@ Goals:
 - Leverage a development workflow similar to test-driven `Flask <>`_ applications
 
 
+Running Locally
+---------------
+
+.. code:: bash
+
+
+
+
 Development Workflow
 --------------------
 
-.. image:: docs/diagrams/diagram-development-workflow.png
+.. image:: docs/source/_static/diagram-development-workflow.png
    :scale: 50 %
    :alt: Development Workflow
    :align: center
-   :target: docs/diagrams/diagram-development-workflow.png
+   :target: docs/source/_static/diagram-development-workflow.png
 
 Test-Driven Development
 -----------------------
 
-.. image:: docs/diagrams/diagram-unit-refactor-cleanup.png
+.. image:: docs/source/_static/diagram-unit-refactor-cleanup.png
    :scale: 50 %
    :alt: Test-Driven Development Flow
    :align: center
-   :target: docs/diagrams/diagram-unit-refactor-cleanup.png
+   :target: docs/source/_static/diagram-unit-refactor-cleanup.png
 
 
 Local Debugging
 ---------------
 
-.. image:: docs/diagrams/diagram-local-debugging.png
+.. image:: docs/source/_static/diagram-local-debugging.png
    :scale: 50 %
    :alt: Local Debugging
    :align: center
-   :target: docs/diagrams/diagram-local-debugging.png
+   :target: docs/source/_static/diagram-local-debugging.png

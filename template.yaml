@@ -1,0 +1,12 @@
+Resources:
+  MacumbaPass:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: macumba_pass.web.api_handlers.app
+      Runtime: python3.6
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /
+            Method: get

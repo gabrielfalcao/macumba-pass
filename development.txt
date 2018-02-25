@@ -1,0 +1,12 @@
+-r requirements.txt
+coverage
+ipdb
+mock
+nose
+pinocchio
+rednose
+sphinx
+sphinx-rtd-theme
+sure
+twine
+placebo

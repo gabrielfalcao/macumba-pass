@@ -1,6 +1,8 @@
 test_layers:=unit smoke
 export LOCALSTACK_ENABLED:=true
 export AWS_PROFILE=localstack
+export DATA_DIR=/tmp/localstack/data
+export MACUMBA_BUCKET_NAME=macumba-secrets
 
 all: dev-local install tests
 
@@ -47,5 +49,8 @@ stop-localstack:
 
 functional:
 	@nohup localstack start >>localstack.log 2>&1 &
-	@./wait-for-it.sh localhost:4572 -q -t 3 -- nosetests tests/functional
+	@./wait-for-it.sh localhost:4572 -q -t 1 -- nosetests tests/functional
 	@make stop-localstack
+
+ipython:
+	ipython

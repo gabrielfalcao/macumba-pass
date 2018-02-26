@@ -23,8 +23,8 @@ def test_index_api_handler(app):
 def test_set_password(PasswordKeyStore, json_response, app):
     "web.handlers.storage.set_password() should create bucket"
     store = PasswordKeyStore.return_value
-    store.get_or_create_bucket.side_effect = lambda name: {
-        'Name': name
+    store.get_bucket.return_value = {
+        'Name': 'macumba-secrets'
     }
 
     response = set_password()
@@ -35,6 +35,4 @@ def test_set_password(PasswordKeyStore, json_response, app):
         "bucket_name": "macumba-secrets"
     })
 
-    store.get_or_create_bucket.assert_called_once_with(
-        'macumba-secrets',
-    )
+    store.get_bucket.assert_called_once_with()

@@ -9,7 +9,6 @@ def test_list_buckets(context):
     ("PasswordKeyStore().list_buckets() should list my buckets")
 
     store = PasswordKeyStore()
-    b1 = store.get_or_create_bucket('macumba-secrets')
-    b2 = store.get_or_create_bucket('test')
+    b1 = store.get_bucket()
 
-    store.list_buckets().should.equal([b1, b2])
+    store.list_buckets().should.equal([b1])

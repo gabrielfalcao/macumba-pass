@@ -1,4 +1,7 @@
 Resources:
+  environment_variables:
+    MACUMBA_BUCKET_NAME: macumba-secrets
+
   MacumbaAPIIndex:
     Type: AWS::Serverless::Function
     Properties:

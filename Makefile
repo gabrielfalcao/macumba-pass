@@ -7,7 +7,7 @@ export LAMBDA_EXECUTOR:=local
 
 all: dev-local install tests
 
-tests: unit functional
+tests: unit start-localstack functional
 
 html-docs:
 	cd docs && make html
@@ -41,7 +41,7 @@ pypi:
 
 
 $(test_layers):
-	nosetests tests/$@
+	nosetests --cover-erase tests/$@
 
 clean:
 	@find . -name '*.pyc' -delete
@@ -51,6 +51,12 @@ clean:
 
 localstack:
 	localstack start
+
+start-localstack: stop-localstack
+	@mkdir -p logs
+	@nohup localstack start >> logs/localstack.stdout.log 2>> logs/localstack.stdout.log &
+	@./wait-for-it.sh localhost:4572 -q -t 3 -- echo -e "\n\033[1;35m\n$$(date)\n----------------------------\n=> LOCALSTACK IS RUNNING <=\n----------------------------\n\n\033[0m"
+
 
 stop-localstack:
 	@./wait-for-it.sh localhost:4572 -q -t 1 -- ps aux | grep -E 'localstack *start' | grep -v grep | awk '{print $$2}' | xargs kill

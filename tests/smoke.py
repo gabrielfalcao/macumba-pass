@@ -3,8 +3,8 @@ import json
 from macumba_pass.clients import MacumbaPassAPIClient
 
 
-PROD_BASE_URL = 'https://0dnrzeikjj.execute-api.us-east-1.amazonaws.com/Prod/'
-STAGE_BASE_URL = 'https://0dnrzeikjj.execute-api.us-east-1.amazonaws.com/Stage/'
+PROD_BASE_URL = 'https://8mbrly1kpa.execute-api.us-east-1.amazonaws.com/Prod/'
+STAGE_BASE_URL = 'https://8mbrly1kpa.execute-api.us-east-1.amazonaws.com/Stage/'
 
 prod = MacumbaPassAPIClient(PROD_BASE_URL)
 stage = MacumbaPassAPIClient(STAGE_BASE_URL)

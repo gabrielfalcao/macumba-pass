@@ -3,7 +3,7 @@ from sure import scenario
 from localstack.services import infra
 from macumba_pass.clients import get_aws_client
 
-from macumba_pass.web import application
+from macumba_pass.web import app
 
 
 def cleanup_s3():
@@ -18,7 +18,7 @@ def cleanup_s3():
 
 
 def create_test_client(context):
-    context.http = application.test_client()
+    context.http = app.test_client()
 
 
 def with_localstack(*apis, **kw):

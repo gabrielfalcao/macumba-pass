@@ -7,9 +7,9 @@ import watchtower
 
 def create_log_handler(formatter=None):
     if sys.platform == 'darwin':
-        handler = logging.StreamHandler(sys.stderr)
+        handler = logging.StreamHandler(sys.stdout)
     else:
-        watchtower.CloudWatchLogHandler()
+        handler = watchtower.CloudWatchLogHandler()
 
     handler.setFormatter(formatter)
     handler.setLevel(logging.DEBUG)

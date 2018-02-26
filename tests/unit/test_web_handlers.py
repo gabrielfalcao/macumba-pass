@@ -4,10 +4,10 @@ from macumba_pass.web.handlers import index
 from macumba_pass.web.handlers.storage import set_password
 
 
-@patch('macumba_pass.web.handlers.app')
-def test_index_api_handler(app):
+@patch('macumba_pass.web.handlers.request')
+def test_index_api_handler(request):
     'web.handlers.index should return hello world'
-    app.current_request.query_params = {
+    request.values = {
         'message': 'Cool',
     }
     response = index()
@@ -17,12 +17,12 @@ def test_index_api_handler(app):
     })
 
 
-@patch('macumba_pass.web.handlers.storage.app')
+@patch('macumba_pass.web.handlers.storage.request')
 @patch('macumba_pass.web.handlers.storage.json_response')
 @patch('macumba_pass.web.handlers.storage.PasswordKeyStore')
-def test_set_password(PasswordKeyStore, json_response, app):
+def test_set_password(PasswordKeyStore, json_response, request):
     'web.handlers.storage.set_password() should create bucket'
-    app.current_request.json_body = {
+    request.get_json.return_value = {
         'label': 'twitter-password',
         'password': 'super secret',
 

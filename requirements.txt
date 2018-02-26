@@ -1,8 +1,12 @@
+Flask-Cors==3.0.3
+Flask==0.10.1
 PyYAML==3.12
 TripleSec==0.4
 awscli-plugin-endpoint==0.2
+awsgi==0.0.5
 boto3==1.5.36
 chalice==1.1.0
+flask-swagger==0.2.12
 localstack-client==0.4
 localstack-ext==0.8.1
 localstack==0.8.5

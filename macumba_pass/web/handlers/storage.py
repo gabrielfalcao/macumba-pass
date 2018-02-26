@@ -1,26 +1,18 @@
 # -*- coding: utf-8 -*-
 from .application import app
-
+from flask import request
 from macumba_pass.web.framework import json_response
 from macumba_pass.web.helpers import PasswordKeyStore
 
 
 def get_secret_metadata_from_request():
-    body = app.current_request.json_body
-    if not body:
-        return {}
-
-    label = body.pop('label')
-    return label, body
-
-
-def get_label_from_query_params():
-    params = dict(app.current_request.query_params)
-    return params.pop('label', None)
+    data = request.get_json(silent=True) or dict(request.values)
+    label = data.pop('label', None)
+    return label, data
 
 
 def json_bad_request(message):
-    return json_response({'error': message}, status_code=400)
+    return json_response({'error': message}, status=400)
 
 
 @app.route('/api/v1/secret', methods=['POST'])
@@ -40,7 +32,7 @@ def set_password():
 
 @app.route('/api/v1/secret', methods=['GET'])
 def retrieve_password():
-    label = get_label_from_query_params()
+    label = request.values.get('label', None)
     store = PasswordKeyStore()
     secret_data = store.retrieve_secret(label)
     return json_response(secret_data)

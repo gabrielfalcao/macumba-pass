@@ -14,10 +14,11 @@ def test_create_password(context):
     response = context.http.post('/api/v1/secret', data=json.dumps(pwdata), headers={'Content-Type': 'application/json'})
 
     response.status_code.should.equal(200)
-    response.headers.should.equal({
+    dict(response.headers).should.equal({
         'Content-Type': 'application/json',
+        'Content-Length': '81',
     })
-    data = json.loads(response.body)
+    data = json.loads(response.data)
     data.should.equal({
         'label': 'personal/gmail-account',
         'value': {

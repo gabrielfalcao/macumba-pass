@@ -5,10 +5,10 @@ from .scenarios import with_localstack
 
 
 @with_localstack('s3')
-def test_list_buckets(context):
-    ("PasswordKeyStore().list_buckets() should list my buckets")
+def test_persist_secret(context):
+    ("PasswordKeyStore().persist_secret() should list my buckets")
 
     store = PasswordKeyStore()
-    b1 = store.get_bucket()
+    created = store.persist_secret('some secret', {'password': 'some password'})
 
-    store.list_buckets().should.equal([b1])
+    store.retrieve_secret('some-secret').should.equal(created)

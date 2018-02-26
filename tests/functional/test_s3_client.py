@@ -15,4 +15,8 @@ def test_create_password(context):
     buckets = response['Buckets']
     bucket = buckets[0]
     bucket.should.have.key('Name').being.equal('macumba-secrets')
+
+
+    objects = s3.list_objects(Bucket='macumba-secrets')['Contents']
+    [s3.delete_object(Key=o['Key'], Bucket='macumba-secrets') for o in objects]
     s3.delete_bucket(Bucket=bucket['Name'])

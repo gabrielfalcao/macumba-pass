@@ -50,7 +50,6 @@ stop-localstack:
 functional:
 	@nohup localstack start >>localstack.log 2>&1 &
 	@./wait-for-it.sh localhost:4572 -q -t 1 -- nosetests tests/functional
-	@make stop-localstack
 
 ipython:
 	ipython

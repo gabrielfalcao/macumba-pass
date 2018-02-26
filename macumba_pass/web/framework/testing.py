@@ -63,7 +63,6 @@ class ChaliceTestClient(object):
             **params
         ))
 
-
         response['status_code'] = response.pop('statusCode')
         return Response(**response)
 

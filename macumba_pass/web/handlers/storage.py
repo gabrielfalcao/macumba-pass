@@ -14,6 +14,11 @@ def get_secret_metadata_from_request():
     return label, body
 
 
+def get_label_from_query_params():
+    params = dict(app.current_request.query_params)
+    return params.pop('label', None)
+
+
 def json_bad_request(message):
     return json_response({'error': message}, status_code=400)
 
@@ -33,8 +38,9 @@ def set_password():
     return json_response(secret_data)
 
 
-@app.route('/api/v1/secret/{label}', methods=['GET'])
-def retrieve_password(label):
+@app.route('/api/v1/secret', methods=['GET'])
+def retrieve_password():
+    label = get_label_from_query_params()
     store = PasswordKeyStore()
     secret_data = store.retrieve_secret(label)
     return json_response(secret_data)

@@ -1,8 +1,8 @@
 test_layers:=unit smoke
 export LOCALSTACK_ENABLED:=true
-export AWS_PROFILE=personal
-export DATA_DIR=/tmp/localstack/data
-export MACUMBA_BUCKET_NAME=macumba-secrets
+export AWS_PROFILE:=localstack
+export DATA_DIR:=/tmp/localstack/data
+export MACUMBA_BUCKET_NAME:=macumba-secrets
 
 all: dev-local install tests
 
@@ -45,6 +45,7 @@ $(test_layers):
 
 clean:
 	@find . -name '*.pyc' -delete
+	@rm -rfv build
 
 localstack:
 	localstack start
@@ -59,9 +60,12 @@ ipython:
 	ipython
 
 package:
-	aws s3 mb s3://macumba-lambda
-	sam package --template-file=template.yaml --s3-bucket=macumba-lambda --output-template-file packaged-template.yaml
-
+	AWS_PROFILE=personal aws s3 mb s3://macumba-lambda
+	AWS_PROFILE=personal sam package --template-file=template.yaml --s3-bucket=macumba-lambda --output-template-file packaged-template.yaml
 
 deploy: package
-	sam deploy --template-file=packaged-template.yaml --stack-name=macumba-lambda-sandbox --capabilities CAPABILITY_IAM --parameter-overrides MacumbaBucketName=macumba-secrets
+	AWS_PROFILE=personal sam deploy --template-file=packaged-template.yaml --stack-name=macumba-lambda-sandbox --capabilities CAPABILITY_IAM --parameter-overrides MacumbaBucketName=macumba-secrets
+
+full-deploy: install deploy
+
+force-redeploy: clean install deploy

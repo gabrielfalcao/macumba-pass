@@ -9,14 +9,9 @@ def test_create_password(context):
 
     s3 = get_aws_client('s3')
 
-    s3.create_bucket(Bucket='test')
+    s3.create_bucket(Bucket='macumba-secrets')
     response = s3.list_buckets()
 
     buckets = response['Buckets']
     bucket = buckets[0]
     bucket.should.have.key('Name').being.equal('macumba-secrets')
-
-
-    objects = s3.list_objects(Bucket='macumba-secrets')['Contents']
-    [s3.delete_object(Key=o['Key'], Bucket='macumba-secrets') for o in objects]
-    s3.delete_bucket(Bucket=bucket['Name'])

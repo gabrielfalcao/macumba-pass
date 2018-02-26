@@ -75,7 +75,7 @@ Resources:
         RetrievePassword:
           Properties:
             Method: get
-            Path: /api/v1/secret
+            Path: /api/v1/secret/{label}
           Type: Api
       Handler: macumba_pass.web.application
       Policies:

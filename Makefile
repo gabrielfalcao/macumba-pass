@@ -23,7 +23,7 @@ dev-local:
 	pip install -r development.txt
 
 run: install
-	sam local start-api
+	sam local start-api --parameter-values MacumbaBucketName=macumba-secrets
 
 docs: dev-local html-docs
 	open docs/build/html/index.html
@@ -53,7 +53,6 @@ stop-localstack:
 	@./wait-for-it.sh localhost:4572 -q -t 1 -- ps aux | grep -E 'localstack *start' | grep -v grep | awk '{print $$2}' | xargs kill
 
 functional:
-	@nohup localstack start >>localstack.log 2>&1 &
 	@./wait-for-it.sh localhost:4572 -q -t 1 -- nosetests tests/functional
 
 ipython:

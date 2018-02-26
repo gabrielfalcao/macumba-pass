@@ -100,5 +100,5 @@ Resources:
         RetrievePassword:
           Type: Api
           Properties:
-            Path: /api/v1/secret
+            Path: /api/v1/secret/{label}
             Method: get

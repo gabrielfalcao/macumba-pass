@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
+
 from chalice.config import Config
 from chalice.local import LocalGateway
 from chalice import Response
 from chalice.constants import DEFAULT_STAGE_NAME
 from chalice.constants import DEFAULT_APIGATEWAY_STAGE_NAME
 from datetime import datetime
+from nicelog.formatters import Colorful
+
 
 from .logs import create_log_handler
 from .serializers import json_serialize
@@ -31,21 +34,19 @@ class ChaliceTestClient(object):
         # self.application._debug = True
         self.server = LocalGateway(self.application, self.config)
 
-        self.log_handler = create_log_handler()
+        self.log_handler = create_log_handler(Colorful())
         self.application.debug = True
         self.application.log.addHandler(self.log_handler)
 
-    def request(self, path, body=None, headers=(), method='GET', authorization=None, json=False):
+    def request(self, path, body=None, headers=(), method='GET', json=False):
         headers = dict(headers or {})
         if not isinstance(body, str):
             json = True
 
         if json:
             headers['Content-Type'] = 'application/json'
-            body = json_serialize(body)
-
-        if not authorization and 'Authorization' not in headers:
-            headers['Authorization'] = 'Credential=credential;Signature=signature;Date={}'.format(datetime.utcnow().isoformat())
+            if body is not None:
+                body = json_serialize(body)
 
         params = dict(
             method=method.upper(),
@@ -66,23 +67,11 @@ class ChaliceTestClient(object):
         response['status_code'] = response.pop('statusCode')
         return Response(**response)
 
-    def get(self, path, headers=None):
-        return self.request(path, headers=headers, method='get')
+    def __getattr__(self, attr):
+        if attr.upper() in ('GET', 'POST', 'PUT', 'DELETE', 'HEAD', 'PATCH', 'TRACE'):
+            return lambda *args, **kw: self.request(method=attr.lower(), *args, **kw)
 
-    def head(self, path, headers=None):
-        return self.request(path, headers=headers, method='head')
-
-    def post(self, path, body, headers=None):
-        return self.request(path, body, headers=headers, method='post')
-
-    def put(self, path, body, headers=None):
-        return self.request(path, body, headers=headers, method='put')
-
-    def patch(self, path, body, headers=None):
-        return self.request(path, body, headers=headers, method='patch')
-
-    def delete(self, path, body, headers=None):
-        return self.request(path, body, headers=headers, method='delete')
+        return object.__getattribute__(self, attr)
 
 
 def test_client(app):

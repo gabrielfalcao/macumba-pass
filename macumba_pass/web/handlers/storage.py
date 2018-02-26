@@ -2,7 +2,6 @@
 from .base import app
 
 from macumba_pass.web.framework import json_response
-from macumba_pass.web.framework.serializers import json
 from macumba_pass.web.helpers import PasswordKeyStore
 
 

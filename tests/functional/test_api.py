@@ -16,8 +16,6 @@ def test_create_password(context):
     response.status_code.should.equal(200)
     response.headers.should.equal({
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Allow-Origin': '*',
     })
     data = json.loads(response.body)
     data.should.equal({

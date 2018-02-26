@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 import sys
 import logging
-from nicelog.formatters import Colorful
 
 
-def create_log_handler():
+def create_log_handler(formatter=None):
     handler = logging.StreamHandler(sys.stderr)
-    handler.setFormatter(Colorful())
+    handler.setFormatter(formatter)
     handler.setLevel(logging.DEBUG)
     return handler

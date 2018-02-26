@@ -12,6 +12,11 @@ html-docs:
 	cd docs && make html
 
 install:
+	pip install -t ./build/ .
+	find build -type d -exec chmod 755 {} \;
+	find build -type f -exec chmod 754 {} \;
+
+reinstall:
 	pip install -U -t ./build/ .
 
 dev-local:
@@ -54,7 +59,10 @@ functional:
 ipython:
 	ipython
 
-deploy:
+package:
 	aws s3 mb s3://macumba-lambda
 	sam package --template-file=template.yaml --s3-bucket=macumba-lambda --output-template-file packaged-template.yaml
-	sam deploy --template-file=packaged-template.yaml --stack-name=macumba-lambda-sandbox --capabilities CAPABILITY_IAM
+
+
+deploy: package
+	sam deploy --template-file=packaged-template.yaml --stack-name=macumba-lambda-sandbox --capabilities CAPABILITY_IAM --parameter-overrides MacumbaBucketName=macumba-secrets

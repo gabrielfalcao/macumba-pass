@@ -34,7 +34,7 @@ Resources:
             - Effect: Allow
               Action:
                 - s3:*
-              Resource: 'arn:aws:s3:::!Ref MacumbaBucketName/*'
+              Resource: 'arn:aws:s3:::${MacumbaBucketName}/*'
       Events:
         APIIndex:
           Type: Api
@@ -42,8 +42,7 @@ Resources:
             Path: /
             Method: get
 
-
-  MacumbaAPICreatePassword:
+  MacumbaAPIIndex:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ./build/
@@ -73,7 +72,7 @@ Resources:
             Path: /api/v1/secret
             Method: post
 
-  MacumbaAPIRetrievePassword:
+  MacumbaAPIIndex:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ./build/
@@ -100,5 +99,5 @@ Resources:
         RetrievePassword:
           Type: Api
           Properties:
-            Path: /api/v1/secret/{label}
+            Path: /api/v1/secret
             Method: get

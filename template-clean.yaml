@@ -1,0 +1,56 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Macumba Password Manager
+Parameters:
+    MacumbaBucketName:
+        Type: String
+
+Resources:
+  MacumbaBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      AccessControl: Private
+      BucketName: macumba-secrets
+
+  MacumbaAPIIndex:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./build/
+      Handler: macumba_pass.web.application
+      Runtime: python3.6
+      Environment:
+        Variables:
+          MACUMBA_BUCKET_NAME: !Ref MacumbaBucketName
+      Policies:
+        - AWSLambdaExecute # Managed Policy
+        - Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - s3:*
+              Resource: 'arn:aws:s3:::!Ref MacumbaBucketName'
+        - Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - s3:*
+              Resource: 'arn:aws:s3:::!Ref MacumbaBucketName/*'
+
+      Events:
+        APIIndex:
+          Type: Api
+          Properties:
+            Path: /
+            Method: get
+
+        CreatePassword:
+          Type: Api
+          Properties:
+            Path: /api/v1/password
+            Method: post
+
+        RetrievePassword:
+          Type: Api
+          Properties:
+            Path: /api/v1/password
+            Method: get

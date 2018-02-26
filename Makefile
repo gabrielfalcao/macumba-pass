@@ -13,8 +13,7 @@ html-docs:
 
 install:
 	pip install -t ./build/ .
-	find build -type d -exec chmod 755 {} \;
-	find build -type f -exec chmod 754 {} \;
+	chmod -R 777 ./build/
 
 reinstall:
 	pip install -U -t ./build/ .
@@ -22,8 +21,8 @@ reinstall:
 dev-local:
 	pip install -r development.txt
 
-run: install
-	sam local start-api --parameter-values MacumbaBucketName=macumba-secrets
+run:
+	sam local start-api
 
 docs: dev-local html-docs
 	open docs/build/html/index.html
@@ -45,7 +44,9 @@ $(test_layers):
 
 clean:
 	@find . -name '*.pyc' -delete
-	@rm -rfv build
+	@echo 'removing ./build'
+	@rm -rf build
+
 
 localstack:
 	localstack start
@@ -64,7 +65,7 @@ package:
 	AWS_PROFILE=personal sam package --template-file=template.yaml --s3-bucket=macumba-lambda --output-template-file packaged-template.yaml
 
 deploy: package
-	AWS_PROFILE=personal sam deploy --template-file=packaged-template.yaml --stack-name=macumba-lambda-sandbox --capabilities CAPABILITY_IAM --parameter-overrides MacumbaBucketName=macumba-secrets
+	AWS_PROFILE=personal sam deploy --template-file=packaged-template.yaml --stack-name=macumba-lambda-sandbox --capabilities CAPABILITY_IAM
 
 full-deploy: install deploy
 

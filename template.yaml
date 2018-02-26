@@ -4,6 +4,7 @@ Description: Macumba Password Manager
 Parameters:
     MacumbaBucketName:
         Type: String
+        Default: macumba-secrets
 
 Resources:
   MacumbaBucket:
@@ -28,13 +29,14 @@ Resources:
             - Effect: Allow
               Action:
                 - s3:*
-              Resource: 'arn:aws:s3:::${MacumbaBucketName}'
+              Resource: !Sub 'arn:aws:s3:::${MacumbaBucketName}'
+
         - Version: '2012-10-17'
           Statement:
             - Effect: Allow
               Action:
                 - s3:*
-              Resource: 'arn:aws:s3:::${MacumbaBucketName}/*'
+              Resource: !Sub 'arn:aws:s3:::${MacumbaBucketName}/*'
       Events:
         APIIndex:
           Type: Api

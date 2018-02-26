@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import logging
 from chalice import Chalice
 from chalice import Response
 
@@ -10,8 +11,12 @@ from .logs import create_log_handler
 class Application(Chalice):
     def __init__(self, *args, **kw):
         super().__init__(*args, **kw)
-        self.stderr_log_handler = create_log_handler()
-        self.log.addHandler(self.stderr_log_handler)
+        handler = create_log_handler()
+
+        logging.getLogger().addHandler(handler)
+        logging.getLogger("boto").addHandler(handler)
+        logging.getLogger("werkzeug").addHandler(handler)
+        self.log.addHandler(handler)
 
     def test_client(self):
         return ChaliceTestClient(self)

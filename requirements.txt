@@ -1,11 +1,13 @@
 PyYAML==3.12
+TripleSec==0.4
+awscli-plugin-endpoint==0.2
 boto3==1.5.36
 chalice==1.1.0
 localstack-client==0.4
 localstack-ext==0.8.1
 localstack==0.8.5
+nicelog==0.2.1
 plant==0.1.3
 python-dateutil==2.6.1
 six==1.10.0
-nicelog==0.2.1
-TripleSec==0.4
+watchtower==0.5.2

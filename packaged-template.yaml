@@ -2,11 +2,12 @@ AWSTemplateFormatVersion: '2010-09-09'
 Description: Macumba Password Manager
 Parameters:
   MacumbaBucketName:
+    Default: macumba-secrets
     Type: String
 Resources:
   MacumbaAPICreatePassword:
     Properties:
-      CodeUri: s3://macumba-lambda/2b221d209fb3789f386ed018cf6f71c6
+      CodeUri: s3://macumba-lambda/5b2f7211d4fad71a1c4d2202aef711a5
       Environment:
         Variables:
           MACUMBA_BUCKET_NAME:
@@ -36,7 +37,7 @@ Resources:
     Type: AWS::Serverless::Function
   MacumbaAPIIndex:
     Properties:
-      CodeUri: s3://macumba-lambda/2b221d209fb3789f386ed018cf6f71c6
+      CodeUri: s3://macumba-lambda/5b2f7211d4fad71a1c4d2202aef711a5
       Environment:
         Variables:
           MACUMBA_BUCKET_NAME:
@@ -54,19 +55,21 @@ Resources:
         - Action:
           - s3:*
           Effect: Allow
-          Resource: arn:aws:s3:::${MacumbaBucketName}
+          Resource:
+            Fn::Sub: arn:aws:s3:::${MacumbaBucketName}
         Version: '2012-10-17'
       - Statement:
         - Action:
           - s3:*
           Effect: Allow
-          Resource: arn:aws:s3:::${MacumbaBucketName}/*
+          Resource:
+            Fn::Sub: arn:aws:s3:::${MacumbaBucketName}/*
         Version: '2012-10-17'
       Runtime: python3.6
     Type: AWS::Serverless::Function
   MacumbaAPIRetrievePassword:
     Properties:
-      CodeUri: s3://macumba-lambda/2b221d209fb3789f386ed018cf6f71c6
+      CodeUri: s3://macumba-lambda/5b2f7211d4fad71a1c4d2202aef711a5
       Environment:
         Variables:
           MACUMBA_BUCKET_NAME:

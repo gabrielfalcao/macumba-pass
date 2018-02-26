@@ -48,7 +48,6 @@ def get_aws_client(service_name, session=None):
 class MacumbaPassAPIClient(object):
     """A python-client for MacumbaPass RESTful API"""
 
-    PROD_BASE_URL = 'https://kxjxyfnwo5.execute-api.us-east-1.amazonaws.com/Prod/'
     LOCAL_BASE_URL = 'http://localhost:3000/'
 
     def __init__(self, base_url=None):
@@ -57,13 +56,10 @@ class MacumbaPassAPIClient(object):
 
     @property
     def default_base_url(self):
-        if is_running_local():
-            return self.LOCAL_BASE_URL
-        else:
-            return self.PROD_BASE_URL
+        return self.LOCAL_BASE_URL
 
     def build_full_url(self, path):
-        return urllib.parse.urljoin(self.base_url.rstrip('/'), path)
+        return '/'.join([self.base_url.strip('/'), path.strip('/')])
 
     def request(self, method, path, body=None, headers=(), json=False):
         headers = headers and dict(headers) or {}
@@ -72,7 +68,12 @@ class MacumbaPassAPIClient(object):
             if body is not None:
                 body = json_module.dumps(body)
 
-        return self.http.request(method, self.build_full_url(path), data=body, headers=headers).json()
+        url = self.build_full_url(path)
+        response = self.http.request(method, url, data=body, headers=headers)
+        if json:
+            return {'headers': dict(response.headers), 'status_code': response.status_code, 'body': response.text, 'url': url, 'method': method.upper()}
+
+        return response
 
     def __getattr__(self, attr):
         if attr.upper() in ('GET', 'POST', 'PUT', 'DELETE', 'HEAD', 'PATCH', 'TRACE'):

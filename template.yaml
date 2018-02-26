@@ -42,7 +42,7 @@ Resources:
             Path: /
             Method: get
 
-  MacumbaAPIIndex:
+  MacumbaAPICreatePassword:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ./build/
@@ -72,7 +72,7 @@ Resources:
             Path: /api/v1/secret
             Method: post
 
-  MacumbaAPIIndex:
+  MacumbaAPIRetrievePassword:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ./build/

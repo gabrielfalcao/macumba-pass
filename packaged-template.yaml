@@ -4,14 +4,39 @@ Parameters:
   MacumbaBucketName:
     Type: String
 Resources:
-  MacumbaBucket:
+  MacumbaAPICreatePassword:
     Properties:
-      AccessControl: Private
-      BucketName: macumba-secrets
-    Type: AWS::S3::Bucket
-  MacumbaRESTfulAPI:
+      CodeUri: s3://macumba-lambda/2b221d209fb3789f386ed018cf6f71c6
+      Environment:
+        Variables:
+          MACUMBA_BUCKET_NAME:
+            Ref: MacumbaBucketName
+      Events:
+        CreatePassword:
+          Properties:
+            Method: post
+            Path: /api/v1/secret
+          Type: Api
+      Handler: macumba_pass.web.application
+      Policies:
+      - AWSLambdaExecute
+      - Statement:
+        - Action:
+          - s3:*
+          Effect: Allow
+          Resource: arn:aws:s3:::${MacumbaBucketName}
+        Version: '2012-10-17'
+      - Statement:
+        - Action:
+          - s3:*
+          Effect: Allow
+          Resource: arn:aws:s3:::${MacumbaBucketName}/*
+        Version: '2012-10-17'
+      Runtime: python3.6
+    Type: AWS::Serverless::Function
+  MacumbaAPIIndex:
     Properties:
-      CodeUri: s3://macumba-lambda/0e1e295b5868e423f25a39461bee5aab
+      CodeUri: s3://macumba-lambda/2b221d209fb3789f386ed018cf6f71c6
       Environment:
         Variables:
           MACUMBA_BUCKET_NAME:
@@ -22,11 +47,31 @@ Resources:
             Method: get
             Path: /
           Type: Api
-        CreatePassword:
-          Properties:
-            Method: post
-            Path: /api/v1/secret
-          Type: Api
+      Handler: macumba_pass.web.application
+      Policies:
+      - AWSLambdaExecute
+      - Statement:
+        - Action:
+          - s3:*
+          Effect: Allow
+          Resource: arn:aws:s3:::${MacumbaBucketName}
+        Version: '2012-10-17'
+      - Statement:
+        - Action:
+          - s3:*
+          Effect: Allow
+          Resource: arn:aws:s3:::${MacumbaBucketName}/*
+        Version: '2012-10-17'
+      Runtime: python3.6
+    Type: AWS::Serverless::Function
+  MacumbaAPIRetrievePassword:
+    Properties:
+      CodeUri: s3://macumba-lambda/2b221d209fb3789f386ed018cf6f71c6
+      Environment:
+        Variables:
+          MACUMBA_BUCKET_NAME:
+            Ref: MacumbaBucketName
+      Events:
         RetrievePassword:
           Properties:
             Method: get
@@ -49,4 +94,9 @@ Resources:
         Version: '2012-10-17'
       Runtime: python3.6
     Type: AWS::Serverless::Function
+  MacumbaBucket:
+    Properties:
+      AccessControl: Private
+      BucketName: macumba-secrets
+    Type: AWS::S3::Bucket
 Transform: AWS::Serverless-2016-10-31

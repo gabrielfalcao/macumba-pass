@@ -7,7 +7,7 @@ Parameters:
 Resources:
   MacumbaAPICreatePassword:
     Properties:
-      CodeUri: s3://macumba-lambda/6e531903c30c4a4c6098ee921125f50b
+      CodeUri: s3://macumba-lambda/1623c93398dec8a2ba72b10a625f3020
       Environment:
         Variables:
           MACUMBA_BUCKET_NAME: macumba-secrets
@@ -44,7 +44,7 @@ Resources:
     Type: AWS::Serverless::Function
   MacumbaAPIIndex:
     Properties:
-      CodeUri: s3://macumba-lambda/6e531903c30c4a4c6098ee921125f50b
+      CodeUri: s3://macumba-lambda/1623c93398dec8a2ba72b10a625f3020
       Environment:
         Variables:
           MACUMBA_BUCKET_NAME: macumba-secrets
@@ -81,7 +81,7 @@ Resources:
     Type: AWS::Serverless::Function
   MacumbaAPIRetrievePassword:
     Properties:
-      CodeUri: s3://macumba-lambda/6e531903c30c4a4c6098ee921125f50b
+      CodeUri: s3://macumba-lambda/1623c93398dec8a2ba72b10a625f3020
       Environment:
         Variables:
           MACUMBA_BUCKET_NAME: macumba-secrets

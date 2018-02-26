@@ -20,4 +20,19 @@ for client in [prod]:
     retrieved = client.get('/api/v1/secret?label=my-secret', json=True)
 
     for response in (index, stored, retrieved):
-        print(json.dumps(response, indent=2))
+        status = response.pop('status_code', None)
+        url = response.pop('url')
+        method = response.pop('method')
+        body = response.pop('body')
+        data = None
+        try:
+            response['body'] = json.loads(body)
+        except ValueError:
+            response['body'] = body
+
+        print("\033[1;33m<{}>\033[0m".format(" ".join([method.upper(), url, str(status)])))
+        if status != 200:
+            print("\033[1;31m{}\033[0m".format(json.dumps(response, indent=2)))
+        else:
+            print("\033[1;32m{}\033[0m".format(json.dumps(response, indent=2)))
+        print("\033[1;33m</{}>\033[0m".format(" ".join([method.upper(), url, str(status)])))

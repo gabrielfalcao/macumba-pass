@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from .base import app
+from .application import app
 
 from macumba_pass.web.framework import json_response
 from macumba_pass.web.helpers import PasswordKeyStore

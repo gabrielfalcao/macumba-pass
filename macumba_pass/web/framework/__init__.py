@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 import logging
-from chalice import Chalice
-from chalice import Response
+from flask import Flask
+from flask import Response
 
 from .testing import ChaliceTestClient
 from .serializers import json
 from .logs import create_log_handler
 
 
-class Application(Chalice):
+class Application(Flask):
     def __init__(self, *args, **kw):
         super().__init__(*args, **kw)
         handler = create_log_handler()
@@ -16,10 +16,10 @@ class Application(Chalice):
         logging.getLogger().addHandler(handler)
         logging.getLogger("boto").addHandler(handler)
         logging.getLogger("werkzeug").addHandler(handler)
-        self.log.addHandler(handler)
+        self.logger.addHandler(handler)
 
-    def test_client(self):
-        return ChaliceTestClient(self)
+    # def test_client(self):
+    #     return ChaliceTestClient(self)
 
 
 def json_response(data, status_code=200, headers=None, cors_origin=None):

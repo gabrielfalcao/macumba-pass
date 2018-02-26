@@ -1,17 +1,18 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: Macumba Password Manager
+
 Parameters:
-    MacumbaBucketName:
-        Type: String
-        Default: macumba-secrets
+  MacumbaBucketName:
+    Type: String
+    Default: macumba-secrets
 
 Resources:
   MacumbaBucket:
     Type: AWS::S3::Bucket
     Properties:
       AccessControl: Private
-      BucketName: macumba-secrets
+      BucketName: !Ref MacumbaBucketName
 
   MacumbaAPIIndex:
     Type: AWS::Serverless::Function
@@ -21,22 +22,31 @@ Resources:
       Runtime: python3.6
       Environment:
         Variables:
-          MACUMBA_BUCKET_NAME: !Ref MacumbaBucketName
-      Policies:
-        - AWSLambdaExecute # Managed Policy
-        - Version: '2012-10-17'
-          Statement:
-            - Effect: Allow
-              Action:
-                - s3:*
-              Resource: !Sub 'arn:aws:s3:::${MacumbaBucketName}'
+          MACUMBA_BUCKET_NAME: macumba-secrets
 
-        - Version: '2012-10-17'
+      Policies:
+        - AWSLambdaExecute
+        - Version: 2012-10-17
           Statement:
-            - Effect: Allow
+            - Resource: "*"
+              Effect: Allow
               Action:
-                - s3:*
-              Resource: !Sub 'arn:aws:s3:::${MacumbaBucketName}/*'
+                - 'cloudwatch:*'
+
+        - Version: 2012-10-17
+          Statement:
+            - Resource: !Sub 'arn:aws:s3:::${MacumbaBucketName}'
+              Effect: Allow
+              Action:
+                - 's3:*'
+
+        - Version: 2012-10-17
+          Statement:
+            - Resource: !Sub 'arn:aws:s3:::${MacumbaBucketName}/*'
+              Effect: Allow
+              Action:
+                - 's3:*'
+
       Events:
         APIIndex:
           Type: Api
@@ -52,21 +62,30 @@ Resources:
       Runtime: python3.6
       Environment:
         Variables:
-          MACUMBA_BUCKET_NAME: !Ref MacumbaBucketName
+          MACUMBA_BUCKET_NAME: macumba-secrets
+
       Policies:
-        - AWSLambdaExecute # Managed Policy
-        - Version: '2012-10-17'
+        - AWSLambdaExecute
+        - Version: 2012-10-17
           Statement:
-            - Effect: Allow
+            - Resource: "*"
+              Effect: Allow
               Action:
-                - s3:*
-              Resource: 'arn:aws:s3:::${MacumbaBucketName}'
-        - Version: '2012-10-17'
+                - 'cloudwatch:*'
+
+        - Version: 2012-10-17
           Statement:
-            - Effect: Allow
+            - Resource: !Sub 'arn:aws:s3:::${MacumbaBucketName}'
+              Effect: Allow
               Action:
-                - s3:*
-              Resource: 'arn:aws:s3:::${MacumbaBucketName}/*'
+                - 's3:*'
+
+        - Version: 2012-10-17
+          Statement:
+            - Resource: !Sub 'arn:aws:s3:::${MacumbaBucketName}/*'
+              Effect: Allow
+              Action:
+                - 's3:*'
       Events:
         CreatePassword:
           Type: Api
@@ -82,21 +101,29 @@ Resources:
       Runtime: python3.6
       Environment:
         Variables:
-          MACUMBA_BUCKET_NAME: !Ref MacumbaBucketName
+          MACUMBA_BUCKET_NAME: macumba-secrets
       Policies:
-        - AWSLambdaExecute # Managed Policy
-        - Version: '2012-10-17'
+        - AWSLambdaExecute
+        - Version: 2012-10-17
           Statement:
-            - Effect: Allow
+            - Resource: "*"
+              Effect: Allow
               Action:
-                - s3:*
-              Resource: 'arn:aws:s3:::${MacumbaBucketName}'
-        - Version: '2012-10-17'
+                - 'cloudwatch:*'
+
+        - Version: 2012-10-17
           Statement:
-            - Effect: Allow
+            - Resource: !Sub 'arn:aws:s3:::${MacumbaBucketName}'
+              Effect: Allow
               Action:
-                - s3:*
-              Resource: 'arn:aws:s3:::${MacumbaBucketName}/*'
+                - 's3:*'
+
+        - Version: 2012-10-17
+          Statement:
+            - Resource: !Sub 'arn:aws:s3:::${MacumbaBucketName}/*'
+              Effect: Allow
+              Action:
+                - 's3:*'
       Events:
         RetrievePassword:
           Type: Api

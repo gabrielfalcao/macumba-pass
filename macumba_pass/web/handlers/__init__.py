@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from .base import app
+from .application import app
 from .storage import *  # noqa
 
 

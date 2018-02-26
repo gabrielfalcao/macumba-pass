@@ -3,6 +3,7 @@ export LOCALSTACK_ENABLED:=true
 export AWS_PROFILE:=localstack
 export DATA_DIR:=/tmp/localstack/data
 export MACUMBA_BUCKET_NAME:=macumba-secrets
+export LAMBDA_EXECUTOR:=local
 
 all: dev-local install tests
 
@@ -60,8 +61,10 @@ functional:
 ipython:
 	ipython
 
-package:
+bucket:
 	AWS_PROFILE=personal aws s3 mb s3://macumba-lambda
+
+package:
 	AWS_PROFILE=personal sam package --template-file=template.yaml --s3-bucket=macumba-lambda --output-template-file packaged-template.yaml
 
 deploy: package

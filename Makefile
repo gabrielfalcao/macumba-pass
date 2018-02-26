@@ -1,6 +1,6 @@
 test_layers:=unit smoke
 export LOCALSTACK_ENABLED:=true
-export AWS_PROFILE=localstack
+export AWS_PROFILE=personal
 export DATA_DIR=/tmp/localstack/data
 export MACUMBA_BUCKET_NAME=macumba-secrets
 
@@ -53,3 +53,8 @@ functional:
 
 ipython:
 	ipython
+
+deploy:
+	aws s3 mb s3://macumba-lambda
+	sam package --template-file=template.yaml --s3-bucket=macumba-lambda --output-template-file packaged-template.yaml
+	sam deploy --template-file=packaged-template.yaml --stack-name=macumba-lambda-sandbox --capabilities CAPABILITY_IAM

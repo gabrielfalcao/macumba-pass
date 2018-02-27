@@ -1,4 +1,4 @@
 # -*- coding: utf-8 -*-
 from macumba_pass.web.framework import Application
 
-app = Application(__name__)
+app = Application(app_name="macumba_pass")

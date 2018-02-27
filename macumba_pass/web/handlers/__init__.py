@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
-from flask import request
-from .application import app
-from .errors import *  # noqa
+from .base import app
 from .storage import *  # noqa
 
 
 @app.route('/')
 def index():
-    msg = request.values.get('message', 'Hello World')
+    params = app.current_request.query_params
+    msg = params.get('message', 'Hello World')
     return {'message': msg}

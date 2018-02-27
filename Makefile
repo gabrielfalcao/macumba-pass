@@ -5,7 +5,7 @@ export DATA_DIR:=/tmp/localstack/data
 export MACUMBA_BUCKET_NAME:=macumba-secrets
 export LAMBDA_EXECUTOR:=local
 
-all: dev-local install tests
+all: dev-local install continuous-integration
 
 tests: unit start-localstack functional
 
@@ -82,3 +82,9 @@ deploy: package
 full-deploy: install deploy smoke
 
 force-redeploy: clean install deploy smoke
+
+continuous-integration: unit start-localstack functional smoke
+	@make stop-localstack
+
+
+ci: continuous-integration

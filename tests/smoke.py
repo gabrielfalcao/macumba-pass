@@ -11,7 +11,7 @@ stage = MacumbaPassAPIClient(STAGE_BASE_URL)
 local = MacumbaPassAPIClient()
 
 
-for client in [local, stage, prod]:
+for client in [prod]:
     index = client.get('/', json=True)
     stored = client.post('/api/v1/secret', json=True, body={
         'label': 'my-secret',

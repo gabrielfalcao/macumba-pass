@@ -4,10 +4,14 @@ import sys
 import json
 import boto3
 import requests
+import logging
 import json as json_module
 
 from botocore.utils import fix_s3_host
 from localstack.constants import DEFAULT_SERVICE_PORTS
+
+
+logger = logging.getLogger('macumba_pass')
 
 
 def get_localstack_endpoint_url_for_service(service_name):
@@ -69,7 +73,12 @@ class MacumbaPassAPIClient(object):
                 body = json_module.dumps(body)
 
         url = self.build_full_url(path)
-        response = self.http.request(method, url, data=body, headers=headers)
+        try:
+            response = self.http.request(method, url, data=body, headers=headers)
+        except Exception:
+            logger.exception('MacumbaPassAPIClient failed to request {method} {ur}'.format(**locals()))
+            return {}
+
         if json:
             return {'headers': dict(response.headers), 'status_code': response.status_code, 'body': response.text, 'url': url, 'method': method.upper()}
 

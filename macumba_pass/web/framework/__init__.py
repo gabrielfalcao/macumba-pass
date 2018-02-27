@@ -12,7 +12,7 @@ class Application(Flask):
         super().__init__(*args, **kw)
         handler = create_log_handler()
         level = logging.INFO
-        for name in [None, 'boto', 'werkzeug', 'flask', 'macumba_pass']:
+        for name in [None, 'boto', 'werkzeug', 'flask', 'macumba_pass', 'macumba_pass.error']:
             logger = logging.getLogger(name)
             logger.setLevel(level)
             logger.addHandler(handler)

@@ -4,6 +4,8 @@ import sys
 import logging
 import watchtower
 
+logger = logging.getLogger('macumba_pass')
+
 
 def create_log_handler(formatter=None):
     if sys.platform == 'darwin':

@@ -79,6 +79,6 @@ package:
 deploy: package
 	AWS_PROFILE=personal sam deploy --template-file=packaged-template.yaml --stack-name=macumba-lambda-sandbox --capabilities CAPABILITY_IAM
 
-full-deploy: install deploy
+full-deploy: install deploy smoke
 
-force-redeploy: clean install deploy
+force-redeploy: clean install deploy smoke

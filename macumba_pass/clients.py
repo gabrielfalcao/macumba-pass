@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 import os
+import sys
 import json
 import boto3
 import requests
-import urllib
 import json as json_module
+
 from botocore.utils import fix_s3_host
 from localstack.constants import DEFAULT_SERVICE_PORTS
 
@@ -18,14 +19,13 @@ def get_localstack_endpoint_url_for_service(service_name):
 
 
 def get_boto_session():
-    PROFILE_NAME = os.getenv('profile_name', 'personal')
-    session = boto3.Session(profile_name=PROFILE_NAME)
+    session = boto3.Session()
     return session
 
 
 def is_running_local():
     enabled = os.getenv('LOCALSTACK_ENABLED')  # must equal `true` (lowercase)
-    return enabled and json.loads(enabled) is True
+    return enabled and (json.loads(enabled) is True or sys.platform in ('darwin', ))
 
 
 def get_aws_client(service_name, session=None):

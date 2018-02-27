@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from flask import request
 from .application import app
+from .errors import *  # noqa
 from .storage import *  # noqa
 
 
